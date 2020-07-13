@@ -13,9 +13,12 @@ namespace BooksApi.Models
         public BookContext(DbContextOptions<BookContext> options)
             :base(options)
         {
+
         }
 
         public DbSet<BookItem> BookItems { get; set; }
+
+
     }
 
 }

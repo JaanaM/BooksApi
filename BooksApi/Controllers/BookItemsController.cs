@@ -14,24 +14,24 @@ namespace BooksApi.Controllers
     public class BookItemsController : ControllerBase
     {
         private readonly BookContext _context;
-        private readonly MockBookRepository mockBookRepository;
+        private readonly MockBookRepository _mockBookRepository;
 
         public BookItemsController(BookContext context)
         {
             _context = context;
+            _mockBookRepository = new MockBookRepository();
         }
 
         // GET: api/BookItems
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BookItem>>> GetBookItems()
         {
+            if (_context.BookItems.Count() == 0)
+            {
+                _context.AddRange(_mockBookRepository.AllBooks);
+                _context.SaveChanges();
+            }
             return await _context.BookItems.ToListAsync();
-        }
-
-        // GET: api/MockBooks
-        public IEnumerable<BookItem> Get()
-        {
-            return mockBookRepository.AllBooks;
         }
 
         // GET: api/BookItems/5
@@ -84,6 +84,8 @@ namespace BooksApi.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<BookItem>> PostBookItem(BookItem bookItem)
         {
             _context.BookItems.Add(bookItem);
