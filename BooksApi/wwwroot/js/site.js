@@ -60,7 +60,7 @@ function displayEditForm(id) {
   document.getElementById('edit-id').value = item.id;
   document.getElementById('editForm').style.display = 'block';
 }
-
+// update item by id
 function updateItem() {
   const itemId = document.getElementById('edit-id').value;
   const item = {
@@ -69,7 +69,7 @@ function updateItem() {
     author: document.getElementById('edit-author').value.trim(),
 	description: document.getElementById('edit-description').value.trim()
   };
-
+    // using PUT to edit existing item
   fetch(`${uri}/${itemId}`, {
     method: 'PUT',
     headers: {
@@ -85,17 +85,19 @@ function updateItem() {
 
   return false;
 }
-
+// close editing
 function closeInput() {
   document.getElementById('editForm').style.display = 'none';
 }
 
+// show number of books
 function _displayCount(itemCount) {
   const name = (itemCount === 1) ? 'book' : 'books';
 
   document.getElementById('counter').innerText = `${itemCount} ${name}`;
 }
 
+// Show listing of bookItems
 function _displayItems(data) {
     const tBody = document.getElementById('books');
   tBody.innerHTML = '';
