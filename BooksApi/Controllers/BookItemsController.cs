@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BooksApi.Models;
+using System.Net.Http;
+using System.Net;
 
 namespace BooksApi.Controllers
 {
@@ -74,30 +76,37 @@ namespace BooksApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBookItem(long id, BookItem bookItem)
         {
-            if (id != bookItem.Id)
+            if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
-
-            _context.Entry(bookItem).State = EntityState.Modified;
-
-            try
+            else
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!BookItemExists(id))
+                if (id != bookItem.Id)
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return NoContent();
+                _context.Entry(bookItem).State = EntityState.Modified;
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!BookItemExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return NoContent();
+            }
         }
         /// <summary>
         /// Is used to create a new item. 
@@ -110,10 +119,17 @@ namespace BooksApi.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<BookItem>> PostBookItem(BookItem bookItem)
         {
-            _context.BookItems.Add(bookItem);
-            await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            else
+            {
+                _context.BookItems.Add(bookItem);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetBookItem), new { id = bookItem.Id }, bookItem);
+                return CreatedAtAction(nameof(GetBookItem), new { id = bookItem.Id }, bookItem);
+            }
         }
         /// <summary>
         /// Deletes bookItem with if it exists with the ID.

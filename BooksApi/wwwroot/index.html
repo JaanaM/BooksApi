@@ -18,14 +18,14 @@
                 <p class="h4 mb-4">Add book</p>
 
                 <!-- Name -->
-                <input type="text" id="add-name" required class="form-control" placeholder="Name of the book">
+                <input type="text" id="add-name" maxlength="150" required class="form-control" placeholder="Name of the book">
 
                 <!-- Author -->
-                <input type="text" id="add-author"  required class="form-control" placeholder="Book Author">
+                <input type="text" id="add-author"  maxlength="150"  required class="form-control" placeholder="Book Author">
 
                 <!-- Description -->
                 <div class="form-group">
-                    <textarea class="form-control rounded-0" id="add-description" rows="3" placeholder="Description"></textarea>
+                    <textarea class="form-control rounded-0" id="add-description"  maxlength="1000" rows="3" placeholder="Description"></textarea>
                 </div>
                 <!-- Send button -->
                 <button class="btn btn-info btn-block" type="submit">Add</button>

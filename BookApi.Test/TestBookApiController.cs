@@ -8,8 +8,8 @@ namespace BooksApi.Tests
     {
         TestBookContext _context;
         BookItemsController _controller;
-        IBookItem bookItem;
         // Didn't get the tests working properly :/ 
+
     //    public TestBooksApiController(TestBookContext context, IBookItem bookItem)
     //    {
     //        _context = context;
