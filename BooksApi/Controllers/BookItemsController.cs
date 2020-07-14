@@ -21,19 +21,33 @@ namespace BooksApi.Controllers
             _context = context;
             _mockBookRepository = new MockBookRepository();
         }
-
+        /// <summary>
+        /// Default call when arriving to index.html page. Fetches 
+        /// All books (bookItems) if no book item present fetches some mock books.
+        /// </summary>
+        /// <returns>
+        /// A synced list of bookItem elements from db context. Not literally saving to db.
+        /// </returns>
         // GET: api/BookItems
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BookItem>>> GetBookItems()
         {
+            // if there is no data, add some mock data
             if (_context.BookItems.Count() == 0)
             {
-                _context.AddRange(_mockBookRepository.AllBooks);
+                _context.AddRange(_mockBookRepository.Allbooks);
                 _context.SaveChanges();
             }
             return await _context.BookItems.ToListAsync();
         }
-
+        /// <summary>
+        /// API call for bookitems with id, used with editing bookItem
+        /// </summary>
+        /// <param name="id">Id of selected book</param>
+        /// <returns> 
+        /// returns a book fields on selected book
+        /// If not found returns NotFound
+        /// </returns>
         // GET: api/BookItems/5
         [HttpGet("{id}")]
         public async Task<ActionResult<BookItem>> GetBookItem(long id)
@@ -48,9 +62,15 @@ namespace BooksApi.Controllers
             return bookItem;
         }
 
+        /// <summary>
+        /// Is used to update excisting book item. 
+        /// </summary>
+        /// <param name="id">Id of the existing element</param>
+        /// <param name="bookItem">Bookitem that has changed values</param>
+        /// <returns>
+        /// Returns NoContent if success and NotFound or BadRequest if element or id doesn't exist.
+        /// </returns>
         // PUT: api/BookItems/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBookItem(long id, BookItem bookItem)
         {
@@ -79,10 +99,12 @@ namespace BooksApi.Controllers
 
             return NoContent();
         }
-
+        /// <summary>
+        /// Is used to create a new item. 
+        /// </summary>
+        /// <param name="bookItem">Saves created bookitem</param>
+        /// <returns>Returns created bookItem</returns>
         // POST: api/BookItems
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -93,7 +115,11 @@ namespace BooksApi.Controllers
 
             return CreatedAtAction(nameof(GetBookItem), new { id = bookItem.Id }, bookItem);
         }
-
+        /// <summary>
+        /// Deletes bookItem with if it exists with the ID.
+        /// </summary>
+        /// <param name="id">Id of bookItem</param>
+        /// <returns>If book item exists retuns bookItem that was deleted and notfound if not exists</returns>
         // DELETE: api/BookItems/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<BookItem>> DeleteBookItem(long id)
@@ -109,7 +135,11 @@ namespace BooksApi.Controllers
 
             return bookItem;
         }
-
+        /// <summary>
+        /// Helper method for Deleting. Check if item exists.
+        /// </summary>
+        /// <param name="id">Id that needs to be checked.</param>
+        /// <returns></returns>
         private bool BookItemExists(long id)
         {
             return _context.BookItems.Any(e => e.Id == id);

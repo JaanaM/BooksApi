@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace BooksApi.Models
 {
-    // Create context to handle the data for the books
+    /// <summary>
+    /// Create context to handle the data for the books
+    /// </summary>
     public class BookContext : DbContext
     {
         public BookContext(DbContextOptions<BookContext> options)
@@ -15,8 +17,8 @@ namespace BooksApi.Models
         {
 
         }
-
-        public DbSet<BookItem> BookItems { get; set; }
+        public DbSet<BookItem> BookItems { get; set;}
+        
 
 
     }
