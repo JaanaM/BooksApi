@@ -5,9 +5,10 @@ Backend made .Core WebApi and front uses vanilla JS + Bootstrap for styles.
 
 Setting up: 
 - Start visual studio solution and restore nuget packages if needed
-- Start project without debugging
+- Start project without debugging (ctrl + F5)
 
 Starting up with terminal:
+- *Requires .NET Core CLI library or Visual Studio with .Net libraries installed*
 - Go to project folder (BookApi)
 ``` dotnet run ```
 - Project starts in port 5501 (https://localhost:5001)
