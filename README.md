@@ -8,7 +8,7 @@ Setting up:
 - Start project without debugging (ctrl + F5)
 
 Starting up with terminal:
-- *Requires .NET Core CLI library or Visual Studio with .Net libraries installed*
+- *Requires .NET Core CLI library example: https://dotnet.microsoft.com/download/dotnet-core/3.1
 - Go to project folder (BookApi)
 ``` dotnet run ```
 - Project starts in port 5501 (https://localhost:5001)
